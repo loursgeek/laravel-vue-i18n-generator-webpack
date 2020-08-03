@@ -1,4 +1,4 @@
-const exec = require('child_process').exec
+const execSync = require('child_process').execSync
 const chokidar = require('chokidar')
 
 class LaravelVueI18nGenerator {
@@ -16,13 +16,11 @@ class LaravelVueI18nGenerator {
             cb()
         })
 
-        if (this.isWatching()) {
-            this.watchFiles()
-        }
+        this.watchFiles()
     }
 
     generate() {
-        exec('php artisan vue-i18n:generate')
+        execSync('php artisan vue-i18n:generate')
     }
 
     watchFiles() {
@@ -33,10 +31,6 @@ class LaravelVueI18nGenerator {
         }).on('change', this.generate)
 
         this.isWatchingForChanges = true
-    }
-
-    isWatching() {
-        return process.argv.includes('--watch')
     }
 }
 
